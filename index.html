@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM API Javascript</title>
+    <link rel="stylesheet" href="style.css">
+</head> <!-- Tag head ditutup di sini -->
+<body>
+    <div class="box">
+        <h1>Website Ubah Warna</h1>
+        <label>Pilih warna teks:</label>
+        <input type="color" id="textColor">
+        <br>
+        <div class="file-row">
+            <label>Pilih gambar:</label>
+            <input type="file" id="filebg" accept="image/*">
+        </div>
+    </div>
+
+    <script>
+        var txtColor = document.getElementById("textColor");
+        txtColor.addEventListener("input", function() {
+            document.body.style.color = txtColor.value;
+        });
+
+        // Perbaikan: Mendapatkan elemen filebg terlebih dahulu
+        var filebg = document.getElementById("filebg");
+        filebg.addEventListener("change", (event) => {
+            var doc = event.target.files[0];
+            if (doc) {
+                var file = new FileReader();
+                file.onload = function(e) {
+                    // Perbaikan: Menggunakan template literal dengan benar dan properti backgroundImage
+                    document.body.style.backgroundImage = `url('${e.target.result}')`;
+                    
+                    // Memindahkan pengaturan gaya ke dalam blok onload atau setelah file dibaca
+                    document.body.style.backgroundSize = "cover";
+                    document.body.style.backgroundRepeat = "no-repeat";
+                    document.body.style.backgroundPosition = "center";
+                };
+
+                file.readAsDataURL(doc); // Memindahkan pemanggilan ini ke dalam blok if(doc)
+            }
+        });
+    </script>
+</body>
+</html>
